@@ -7,7 +7,7 @@ import { Copy, CheckCircle2 } from "lucide-react";
 
 export default function HashBlock() {
   const [number, setNumber] = useState(1);
-  const [nonce, setNonce] = useState("89565"); 
+  const [nonce, setNonce] = useState("89565");
   const [data, setData] = useState("");
   const [hash, setHash] = useState("0000");
   const [loading, setLoading] = useState(false);
@@ -23,20 +23,20 @@ export default function HashBlock() {
     try {
       const res = await axios.post("/api/hash", {
         input: number + nonce + data,
-        encoding: "Hex"
+        encoding: "Hex",
       });
 
       const hashValue = res.data.hash || "No hash generated";
       setHash(hashValue);
 
       if (hashValue.startsWith("0000")) {
-        setBgColor("bg-teal-600");  
+        setBgColor("bg-teal-600");
         setMined(true);
-        setIsBlinking(false);  
+        setIsBlinking(false);
       } else {
-        setBgColor("bg-red-300"); 
+        setBgColor("bg-red-300");
         setMined(false);
-        setIsBlinking(true);  
+        setIsBlinking(true);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -51,7 +51,6 @@ export default function HashBlock() {
     }
   }, [number, nonce, data]);
 
-  
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(hash);
@@ -69,25 +68,23 @@ export default function HashBlock() {
     setIsBlinking(true);
     try {
       const res = await axios.post("/api/hash", {
-        input:data+ number + nonce,
+        input: data + number + nonce,
         encoding: "Hex",
-        mine: true
+        mine: true,
       });
 
       const { hash: minedHash, nonce: newNonce } = res.data;
-    
 
       if (minedHash.startsWith("0000")) {
-        setBgColor("bg-teal-600");  
+        setBgColor("bg-teal-600");
         setMined(true);
         setHash(minedHash);
         setNonce(newNonce);
-        setIsBlinking(false)
-            
+        setIsBlinking(false);
       } else {
         setBgColor("bg-red-300");
         setMined(false);
-        setIsBlinking(true);  
+        setIsBlinking(true);
       }
     } catch (error) {
       console.error("Error mining block:", error);
@@ -106,7 +103,7 @@ export default function HashBlock() {
           </h1>
           <motion.div
             className={`${bgColor} backdrop-blur-lg rounded-3xl p-6 shadow-xl`}
-            animate={{ opacity: isBlinking ? [1, 0.5, 1] : 1 }}  
+            animate={{ opacity: isBlinking ? [1, 0.5, 1] : 1 }}
             transition={{ repeat: isBlinking ? Infinity : 0, duration: 3 }}
           >
             <div className="space-y-6">
@@ -117,9 +114,9 @@ export default function HashBlock() {
                 <input
                   type="number"
                   value={number}
-                  onChange={(e) =>{ 
-                   setMined(false);
-                    setNumber(parseInt(e.target.value, 10))
+                  onChange={(e) => {
+                    setMined(false);
+                    setNumber(parseInt(e.target.value, 10));
                   }}
                   className="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
                   placeholder="Block number"
@@ -131,11 +128,12 @@ export default function HashBlock() {
                   Nonce
                 </label>
                 <input
-                  type="text" 
+                  type="text"
                   value={nonce}
-                  onChange={(e) =>{
+                  onChange={(e) => {
                     setMined(false);
-                     setNonce(e.target.value)}} 
+                    setNonce(e.target.value);
+                  }}
                   className="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
                   placeholder="Nonce"
                 />
@@ -150,7 +148,8 @@ export default function HashBlock() {
                   value={data}
                   onChange={(e) => {
                     setMined(false);
-                    setData(e.target.value)}}
+                    setData(e.target.value);
+                  }}
                   className="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
                   placeholder="Data for the block"
                 />
@@ -170,10 +169,14 @@ export default function HashBlock() {
                     </button>
                   )}
                 </div>
-                <div className="bg-white/50 rounded-xl p-4 min-h-[60px]">
-                  <p className="font-mono text-gray-800 break-all">
-                    {hash || "Hash will appear here..."}
-                  </p>
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={hash || "Hash will appear here..."}
+                    disabled
+                    className="w-full bg-white/50 rounded-xl p-4 font-mono text-gray-800 border border-white/30 cursor-not-allowed focus:outline-none overflow-hidden whitespace-nowrap text-ellipsis"
+                    title={hash} 
+                  />
                 </div>
               </div>
 
@@ -192,3 +195,5 @@ export default function HashBlock() {
     </div>
   );
 }
+
+
