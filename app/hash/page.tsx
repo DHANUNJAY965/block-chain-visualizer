@@ -9,7 +9,7 @@ export default function HashPage() {
   const [inputValue, setInputValue] = useState(initialInput);
   const [encodingType, setEncodingType] = useState("Hex");
   const [hash, setHash] = useState("");
-  const [loading, setLoading] = useState(true); // Start with loading true
+  const [loading, setLoading] = useState(true); 
   const [copied, setCopied] = useState(false);
 
   const encodingTypes = ["Ascii", "Hex", "Base64", "Base58"];
@@ -23,7 +23,7 @@ export default function HashPage() {
 
       setLoading(true);
       try {
-        const res = await axios.post("/api", {
+        const res = await axios.post("/api/hash", {
           input: inputValue,
           encoding: encodingType
         }, {
@@ -57,7 +57,7 @@ export default function HashPage() {
       <div className="max-w-2xl mx-auto">
         <div className="max-w-md mx-auto ">
           <h1 className="text-4xl font-bold  text-black text-center mb-8">
-            Hash Value Generator
+          SHA256 Hash
           </h1>
           <div className="bg-teal-600 backdrop-blur-lg rounded-3xl p-6 shadow-xl">
             <div className="space-y-6">
