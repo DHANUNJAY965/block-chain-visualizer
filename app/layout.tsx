@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Header from "@/Components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,11 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <body className="bg-gray-100">
+      <Header /> {/* The header will be visible on all pages */}
+      <div className="pt-20"> {/* Add padding-top to avoid overlap */}
         {children}
-      </body>
-    </html>
+      </div>
+    </body>
+  </html>
   );
 }
