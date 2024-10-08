@@ -1,38 +1,103 @@
 "use client"
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const menuItems = ['Hash', 'Block', 'Blockchain', 'Public/Private Keys'];
+
+  const isActive = (path) => {
+    return pathname === `/${path.toLowerCase().replace(/\s+/g, '-')}`;
+  };
+
   return (
-    <header className="w-full bg-gradient-to-r from-purple-500 to-blue-500 py-4">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl md:text-3xl font-bold text-white">Blockchain Concepts</h1>
-          <button
-            className="md:hidden text-white"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <Menu size={24} />
-          </button>
-          <nav className={`${
-            isMenuOpen ? 'block' : 'hidden'
-          } md:block md:space-x-4 absolute md:static left-0 right-0 top-16 md:top-auto bg-purple-500 md:bg-transparent p-4 md:p-0`}>
-            <Link href="/hash" className="block md:inline-block text-white hover:bg-purple-600 md:hover:bg-white md:hover:text-purple-500 px-4 py-2 rounded-lg transition duration-300 mb-2 md:mb-0">Hash</Link>
-            <Link href="/block" className="block md:inline-block text-white hover:bg-purple-600 md:hover:bg-white md:hover:text-purple-500 px-4 py-2 rounded-lg transition duration-300 mb-2 md:mb-0">Block</Link>
-            <Link href="/blockchain" className="block md:inline-block text-white hover:bg-purple-600 md:hover:bg-white md:hover:text-purple-500 px-4 py-2 rounded-lg transition duration-300 mb-2 md:mb-0">Blockchain</Link>
-            <Link href="/keys" className="block md:inline-block text-white hover:bg-purple-600 md:hover:bg-white md:hover:text-purple-500 px-4 py-2 rounded-lg transition duration-300">Public/Private Keys</Link>
-          </nav>
+    <>
+      <motion.header 
+        className="fixed top-0 left-0 right-0 w-full bg-teal-600 py-6 shadow-xl z-30"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-white">Blockchain Concepts</h1>
+            <button
+              className="md:hidden text-white z-50"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+            {!isMobile && (
+              <nav className="hidden md:block md:space-x-4">
+                {menuItems.map((item, index) => (
+                  <Link 
+                    key={index}
+                    href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
+                    className={`inline-block text-white px-4 py-2 rounded-xl transition duration-300 text-xl
+                      ${isActive(item) 
+                        ? 'bg-white text-teal-600 font-bold' 
+                        : 'hover:bg-teal-500'
+                      }`}
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </nav>
+            )}
+          </div>
         </div>
+      </motion.header>
+
+      <AnimatePresence>
+        {isMobile && isMenuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 left-0 right-0 bottom-0 bg-teal-600 z-40 pt-24 px-4 overflow-y-auto"
+          >
+            {menuItems.map((item, index) => (
+              <Link 
+                key={index}
+                href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
+                className={`block text-white px-4 py-4 rounded-xl transition duration-300 text-xl mb-2
+                  ${isActive(item) 
+                    ? 'bg-white text-teal-600 font-bold' 
+                    : 'hover:bg-teal-500'
+                  }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item}
+              </Link>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
+      <div className="pt-24">
+        
       </div>
-    </header>
+    </>
   );
 }
 

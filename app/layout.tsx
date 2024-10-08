@@ -27,8 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body className="bg-gray-100">
-      <Header /> {/* The header will be visible on all pages */}
-      <div className="pt-6"> {/* Add padding-top to avoid overlap */}
+      <Header /> 
+      <div className="pt-3"> 
         {children}
       </div>
     </body>

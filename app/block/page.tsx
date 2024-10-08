@@ -151,7 +151,7 @@ export default function HashBlock() {
                     setData(e.target.value);
                   }}
                   className="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-                  placeholder="Data for the block"
+                  placeholder="Type your data here"
                 />
               </div>
 
