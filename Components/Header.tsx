@@ -24,7 +24,7 @@ const Header = () => {
 
   const menuItems = ['Hash', 'Block', 'Blockchain', 'Public/Private Keys'];
 
-  const isActive = (path) => {
+  const isActive = (path:string) => {
     return pathname === `/${path.toLowerCase().replace(/\s+/g, '-')}`;
   };
 

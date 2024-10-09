@@ -32,7 +32,7 @@ const Home = () => {
     {
       title: "Understanding Block Mining",
       description:
-        "Mining is the process of validating transactions and adding them to the blockchain. Miners solve complex mathematical problems to find a 'nonce' that produces a hash meeting certain criteria, securing the network."
+        "Mining is the process of validating transactions and adding them to the blockchain. Miners solve complex mathematical problems to find a 'nonce' that produces a hash meeting certain criteria in our case starting with 0000, securing the network."
     },
     {
       title: "How Blockchain Works",

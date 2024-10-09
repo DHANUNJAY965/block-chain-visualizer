@@ -6,8 +6,8 @@ import bs58 from 'bs58';
 export async function POST(req: Request) {
     try {
         const { input, encoding,mine } = await req.json(); 
-        console.log(mine);
-        console.log("Received request:", { input, encoding, mine });
+        // console.log(mine);
+        // console.log("Received request:", { input, encoding, mine });
 
       if(!mine || mine==undefined){
         
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
         switch (encoding) {
             case 'Ascii':
-                hashValue = hash.digest('ascii');
+                hashValue = hash.digest('binary');
                 break;
             case 'Hex':
                 hashValue = hash.digest('hex');
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
                 return NextResponse.json({ error: 'Unsupported encoding type' }, { status: 400 });
         }
 
-        console.log("the hash value is ",hashValue);
+        // console.log("the hash value is ",hashValue);
 
         return NextResponse.json({ hash: hashValue }, { status: 200 });
 
@@ -47,7 +47,6 @@ export async function POST(req: Request) {
         }
         
         let nonce:number=0;
-        let hased:string=""
         while(true){
           
             let data:string=input+nonce;
