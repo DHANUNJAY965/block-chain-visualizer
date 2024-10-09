@@ -43,6 +43,7 @@ const HashBlock = () => {
             // If blockIndex is not the last block, update the next block's prevHash
             if (blockIndex < blocks.length - 1) {
                 updatedBlocks[blockIndex + 1].prevHash = hashValue;
+
                 // Call generateHash for the next block
                 await generateHash(blockIndex + 1);
             }
@@ -67,7 +68,7 @@ const HashBlock = () => {
     };
 
     // Automatically generate hash when number, nonce, data, or prevHash changes
-    const handleInputChange = (index:any, field:any, value:any) => {
+    const handleInputChange = (index, field, value) => {
         const updated = [...blocks];
         updated[index][field] = value;
         setBlocks(updated);

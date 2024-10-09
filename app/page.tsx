@@ -3,7 +3,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const OverviewSection = ({ title, description }) => {
+interface deatils {
+     title:string;
+     description:string
+}
+
+const OverviewSection: React.FC<deatils> = ({ title, description }) => {
   return (
     <motion.div
       className="bg-teal-600 backdrop-blur-lg rounded-3xl p-6 shadow-xl mb-8"
