@@ -50,16 +50,17 @@ const Header = () => {
               <nav className="hidden md:block md:space-x-4">
                 {menuItems.map((item, index) => (
                   <Link 
-                    key={index}
-                    href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
-                    className={`inline-block text-white px-4 py-2 rounded-xl transition duration-300 text-xl
-                      ${isActive(item) 
-                        ? 'bg-white text-teal-600 font-bold' 
-                        : 'hover:bg-teal-500'
-                      }`}
-                  >
-                    {item}
-                  </Link>
+                  key={index}
+                  href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
+                  className={`inline-block px-4 py-2 rounded-xl transition duration-300 text-xl
+                    ${isActive(item) 
+                      ? 'bg-white !text-teal-600 font-bold'  // Force teal text when active
+                      : 'hover:bg-teal-500 text-white'      // Keep white text when not active
+                    }`}
+                >
+                  {item}
+                </Link>
+                
                 ))}
               </nav>
             )}
@@ -82,7 +83,7 @@ const Header = () => {
                 href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
                 className={`block text-white px-4 py-4 rounded-xl transition duration-300 text-xl mb-2
                   ${isActive(item) 
-                    ? 'bg-white text-teal-600 font-bold' 
+                    ? 'bg-white !text-teal-600 font-bold' 
                     : 'hover:bg-teal-500'
                   }`}
                 onClick={() => setIsMenuOpen(false)}
