@@ -46,7 +46,7 @@ export default function KeyGeneration() {
     fetchPrivateKey();
   }, [publicKey]);
 
-  const extractPrivateKey = (key) => {
+  const extractPrivateKey = (key:string) => {
     if (key) {
       const lines = key.split('\n');
       return lines.slice(1, -1).join('');
@@ -76,7 +76,7 @@ export default function KeyGeneration() {
       <div className="max-w-2xl mx-auto">
         <div className="max-w-md mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold text-black text-center mb-5">
-            Key Generation
+          Public/Private Key Generation
           </h1>
           <motion.div
             className={`${bgColor} backdrop-blur-lg rounded-3xl p-6 shadow-xl`}

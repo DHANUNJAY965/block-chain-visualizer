@@ -54,8 +54,8 @@ const Header = () => {
                   href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} 
                   className={`inline-block px-4 py-2 rounded-xl transition duration-300 text-xl
                     ${isActive(item) 
-                      ? 'bg-white !text-teal-600 font-bold'  // Force teal text when active
-                      : 'hover:bg-teal-500 text-white'      // Keep white text when not active
+                      ? 'bg-white !text-teal-600 font-bold' 
+                      : 'hover:bg-teal-500 text-white'      
                     }`}
                 >
                   {item}
