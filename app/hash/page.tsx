@@ -46,6 +46,7 @@ export default function HashPage() {
     try {
       await navigator.clipboard.writeText(hash);
       setCopied(true);
+      console.log(loading);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy text: ", err);

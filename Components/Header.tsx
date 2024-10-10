@@ -22,7 +22,7 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const menuItems = ['Hash', 'Block', 'Blockchain', 'Public/Private Keys'];
+  const menuItems = ['Hash', 'Block', 'Blockchain', 'public-private-keys'];
 
   const isActive = (path:string) => {
     return pathname === `/${path.toLowerCase().replace(/\s+/g, '-')}`;
@@ -103,3 +103,7 @@ const Header = () => {
 }
 
 export default Header;
+
+
+
+

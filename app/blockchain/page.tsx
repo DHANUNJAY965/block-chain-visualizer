@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { Copy, CheckCircle2 } from "lucide-react";
+// import { Copy, CheckCircle2 } from "lucide-react";
 
-let firstprev = "0000000000000000000000000000000000000000";
+const firstprev = "0000000000000000000000000000000000000000";
 type Block = {
   number: number;
   nonce: string;
@@ -159,6 +159,7 @@ const HashBlock = () => {
     try {
       await navigator.clipboard.writeText(blocks[blockIndex].hash);
       setCopied(true);
+      console.log(copied);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
@@ -249,9 +250,9 @@ const HashBlock = () => {
                 </label>
                 <input
                   type="number"
-                  className="w-full bg-white rounded-xl px-3 py-2 focus:outline-none"
+                  className="w-full bg-white text-black rounded-xl px-3 py-2 focus:outline-none"
                   value={block.number}
-                  readOnly
+                  onChange={(e) => handleInputChange(index, "number", e.target.value)}
                 />
               </div>
               <div>
@@ -260,7 +261,7 @@ const HashBlock = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-white rounded-xl px-3 py-2 focus:outline-none"
+                  className="w-full bg-white text-black rounded-xl px-3 py-2 focus:outline-none"
                   value={block.nonce}
                   onChange={(e) =>
                     handleInputChange(index, "nonce", e.target.value)
@@ -273,7 +274,7 @@ const HashBlock = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-white rounded-xl px-3 py-2 focus:outline-none"
+                  className="w-full bg-white text-black rounded-xl px-3 py-2 focus:outline-none"
                   value={block.data}
                   onChange={(e) =>
                     handleInputChange(index, "data", e.target.value)
@@ -286,7 +287,7 @@ const HashBlock = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-white rounded-xl px-3 py-2 focus:outline-none cursor-not-allowed"
+                  className="w-full bg-white text-black rounded-xl px-3 py-2 focus:outline-none cursor-not-allowed"
                   value={block.prevHash}
                   readOnly
                 />
@@ -297,7 +298,7 @@ const HashBlock = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-white rounded-xl px-3 py-2 focus:outline-none cursor-not-allowed"
+                  className="w-full bg-white text-black rounded-xl px-3 py-2 focus:outline-none cursor-not-allowed"
                   value={block.hash}
                   readOnly
                   onFocus={() => copyToClipboard(index)}

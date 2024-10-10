@@ -27,16 +27,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-         <link rel="icon" href="https://img.icons8.com/color/48/blockchain.png" />
+      <link rel="icon" href="https://img.icons8.com/color/48/blockchain.png" />
       </head>
-    <body className="bg-gray-100">
-      <Header /> 
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
+      >
+        <Header /> 
       <div className="pt-3"> 
         {children}
       </div>
-    </body>
-    
-      
-  </html>
+      </body>
+    </html>
   );
 }

@@ -49,8 +49,8 @@ export async function POST(req: Request) {
         let nonce:number=0;
         while(true){
           
-            let data:string=input+nonce;
-            let hash=crypto.createHash('sha256').update(data).digest('hex');
+            const data:string=input+nonce;
+            const hash=crypto.createHash('sha256').update(data).digest('hex');
             if(hash.startsWith('0000')){
                 return NextResponse.json({ hash: hash,nonce },{ status: 200 })
             }
