@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Copy, CheckCircle2 } from "lucide-react";
 
 export default function KeyGeneration() {
-  const [privateKey, setPrivateKey] = useState('');
   const [publicKey, setPublicKey] = useState('');
+  const [privateKey, setPrivateKey] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -15,40 +15,48 @@ export default function KeyGeneration() {
   const [isBlinking, setIsBlinking] = useState(false);
 
   useEffect(() => {
-    const fetchPublicKey = async () => {
-      if (privateKey) {
+    const fetchPrivateKey = async () => {
+      if (publicKey) {
         setLoading(true);
         setBgColor("bg-red-300");
         setIsBlinking(true);
         try {
-          const response = await fetch('/api/getPublicKey', {
+          const response = await fetch('/api/getPrivateKey', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ privateKey }),
+            body: JSON.stringify({ publicKey }),
           });
           const data = await response.json();
-          setPublicKey(data.publicKey);
+          setPrivateKey(extractPrivateKey(data.privateKey));
           setBgColor("bg-teal-600");
         } catch (error) {
-          console.error('Error fetching public key:', error);
-          setPublicKey("Error generating public key");
+          console.error('Error fetching private key:', error);
+          setPrivateKey("Error generating private key");
         } finally {
           setLoading(false);
           setIsBlinking(false);
         }
       } else {
-        setPublicKey('');
+        setPrivateKey('');
       }
     };
 
-    fetchPublicKey();
-  }, [privateKey]);
+    fetchPrivateKey();
+  }, [publicKey]);
+
+  const extractPrivateKey = (key:string) => {
+    if (key) {
+      const lines = key.split('\n');
+      return lines.slice(1, -1).join('');
+    }
+    return '';
+  };
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(publicKey);
+      await navigator.clipboard.writeText(privateKey);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -56,14 +64,11 @@ export default function KeyGeneration() {
     }
   };
 
-  const generateRandomPrivateKey = () => {
-    const randomKey = Math.floor(Math.random() * 1e18);
-    setPrivateKey(randomKey.toString());
-  };
-
-  const handlePrivateKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^0-9]/g, '');
-    setPrivateKey(value);
+  const generateRandomPublicKey = () => {
+    const randomBytes = new Uint8Array(32);
+    window.crypto.getRandomValues(randomBytes);
+    const randomKey = Array.from(randomBytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+    setPublicKey(randomKey);
   };
 
   return (
@@ -71,7 +76,7 @@ export default function KeyGeneration() {
       <div className="max-w-2xl mx-auto">
         <div className="max-w-md mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold text-black text-center mb-5">
-            Public/Private Key Generation
+          Public/Private Key Generation
           </h1>
           <motion.div
             className={`${bgColor} backdrop-blur-lg rounded-3xl p-6 shadow-xl`}
@@ -81,18 +86,18 @@ export default function KeyGeneration() {
             <div className="space-y-6">
               <div>
                 <label className="block text-lg sm:text-xl font-semibold text-white mb-2">
-                  Private Key (Numeric)
+                  Public Key
                 </label>
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                   <input
                     type="text"
-                    value={privateKey}
-                    onChange={handlePrivateKeyChange}
+                    value={publicKey}
+                    onChange={(e) => setPublicKey(e.target.value)}
                     className="flex-grow px-4 py-3 rounded-xl bg-white/50 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    placeholder="Enter private key (numeric)"
+                    placeholder="Enter public key"
                   />
                   <button
-                    onClick={generateRandomPrivateKey}
+                    onClick={generateRandomPublicKey}
                     className="px-4 py-2 rounded-xl font-medium bg-yellow-500 text-black border-2 border-black hover:bg-yellow-600 transition-all"
                   >
                     Random
@@ -103,9 +108,9 @@ export default function KeyGeneration() {
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-lg sm:text-xl font-semibold text-white">
-                    Public Key (Hex)
+                    Private Key
                   </label>
-                  {publicKey && (
+                  {privateKey && (
                     <button
                       onClick={copyToClipboard}
                       className="text-white hover:text-gray-200 transition-colors"
@@ -118,7 +123,7 @@ export default function KeyGeneration() {
                 <div className="relative group overflow-x-auto">
                   <input
                     type="text"
-                    value={loading ? "Fetching public key..." : (publicKey || "Public key will appear here...")}
+                    value={loading ? "Fetching private key..." : (privateKey || "Private key will appear here...")}
                     readOnly
                     className="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 whitespace-nowrap overflow-x-auto"
                     style={{ minWidth: '100%' }}
