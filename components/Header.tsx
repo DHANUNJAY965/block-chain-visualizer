@@ -38,7 +38,10 @@ const Header = () => {
       >
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
+            <Link href="/">
             <h1 className="text-3xl md:text-4xl font-bold text-white">Blockchain Concepts</h1>
+            </Link>
+            
             <button
               className="md:hidden text-white z-50 relative"
               onClick={toggleMenu}
