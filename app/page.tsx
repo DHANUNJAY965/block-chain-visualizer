@@ -2,14 +2,16 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-
+import Link from 'next/link';
 interface deatils {
      title:string;
-     description:string
+     description:string;
+     redirect:string;
 }
 
-const OverviewSection: React.FC<deatils> = ({ title, description }) => {
+const OverviewSection: React.FC<deatils> = ({ title, description ,redirect}) => {
   return (
+    <Link href={redirect}>
     <motion.div
       className="bg-teal-600 backdrop-blur-lg rounded-3xl p-6 shadow-xl mb-8"
       initial={{ opacity: 0, y: 50 }}
@@ -17,8 +19,10 @@ const OverviewSection: React.FC<deatils> = ({ title, description }) => {
       transition={{ duration: 0.5 }}
     >
       <h2 className="text-3xl font-bold text-white mb-3">{title}</h2>
+     
       <p className="text-lg text-white">{description}</p>
     </motion.div>
+    </Link>
   );
 };
 
@@ -27,22 +31,26 @@ const Home = () => {
     {
       title: "What is a Hash?",
       description:
-        "A hash function converts data into a fixed-length value. In blockchain, hashing ensures data integrity. Even a small change in the input produces a completely different hash, making it secure and tamper-resistant."
+        "A hash function converts data into a fixed-length value. In blockchain, hashing ensures data integrity. Even a small change in the input produces a completely different hash, making it secure and tamper-resistant.",
+      redirect: "/hash"
     },
     {
       title: "Understanding Block Mining",
       description:
-        "Mining is the process of validating transactions and adding them to the blockchain. Miners solve complex mathematical problems to find a 'nonce' that produces a hash meeting certain criteria in our case starting with 0000, securing the network."
+        "Mining is the process of validating transactions and adding them to the blockchain. Miners solve complex mathematical problems to find a 'nonce' that produces a hash meeting certain criteria in our case starting with 0000, securing the network.",
+        redirect: "/block"
     },
     {
       title: "How Blockchain Works",
       description:
-        "A blockchain is a decentralized ledger of transactions. Each block contains transaction data, a timestamp, a hash of the previous block, and a unique hash. This creates a chain of blocks, ensuring security and transparency."
+        "A blockchain is a decentralized ledger of transactions. Each block contains transaction data, a timestamp, a hash of the previous block, and a unique hash. This creates a chain of blocks, ensuring security and transparency.",
+        redirect: "/blockchain"
     },
     {
       title: "Public and Private Keys",
       description:
-        "In cryptography, a public key is shared with others to encrypt messages, while the private key is kept secret for decrypting those messages. Blockchain uses key pairs to sign transactions, ensuring secure identity verification."
+        "In cryptography, a public key is shared with others to encrypt messages, while the private key is kept secret for decrypting those messages. Blockchain uses key pairs to sign transactions, ensuring secure identity verification.",
+        redirect: "/public-private-key"
     }
   ];
 
@@ -53,7 +61,7 @@ const Home = () => {
           Blockchain Concepts Overview
         </h1>
         {overviewData.map((item, index) => (
-          <OverviewSection key={index} title={item.title} description={item.description} />
+          <OverviewSection key={index} title={item.title} description={item.description} redirect={item.redirect} />
         ))}
       </div>
     </div>
