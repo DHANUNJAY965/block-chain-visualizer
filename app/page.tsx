@@ -50,7 +50,7 @@ const Home = () => {
       title: "Public and Private Keys",
       description:
         "In cryptography, a public key is shared with others to encrypt messages, while the private key is kept secret for decrypting those messages. Blockchain uses key pairs to sign transactions, ensuring secure identity verification.",
-        redirect: "/public-private-key"
+        redirect: "/public-private-keys"
     }
   ];
 
