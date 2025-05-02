@@ -131,7 +131,7 @@ const HashBlock = () => {
   ) => {
     const updated = [...blocks];
 
-    // Use conditional assignment to ensure correct type for each field
+    // Using conditional assignment to ensure correct type for each field
     switch (field) {
       case "number":
         updated[index][field] = parseInt(value, 10);
